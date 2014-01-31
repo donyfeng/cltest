@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import urllib.request
 import urllib.parse
+import re
 
 user_agent = "Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25"
 check_url = 'http://wo.yao.cl/register.php'
@@ -41,7 +42,13 @@ def CheckCode(code):
 
 if __name__ == '__main__':
     fp = open('code.txt','a')
-    end = [7,8]
+
+    end = []
+    repl = re.finditer(r'\*',begin_code[0])
+    for tp in repl:
+        end.append(tp.start())
+    
+    print(end)
     num = len(end)
     
     codes = begin_code
@@ -53,6 +60,8 @@ if __name__ == '__main__':
         if result == 1:
             fp.write(code)
             print(code,'ok')
+        if i == 0:
+            print('code:',code)
         i += 1
         print(i,'Codes checked!')
 
